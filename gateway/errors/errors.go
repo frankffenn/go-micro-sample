@@ -5,7 +5,7 @@ import "golang.org/x/xerrors"
 type ErrorCode uint64
 
 const (
-	UnknownErr  ErrorCode =  1000 + iota
+	UnknownErr ErrorCode = 1000 + iota
 )
 
 var Errors = map[ErrorCode]error{

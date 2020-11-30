@@ -16,7 +16,7 @@ var (
 	pkgPathToPkgName    = make(map[string]string)
 
 	defaultImports = []Import{
-		{Name: "context", PkgPath:"context"},
+		{Name: "context", PkgPath: "context"},
 		{Name: "client", PkgPath: "github.com/micro/go-micro/v2/client"},
 	}
 )

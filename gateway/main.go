@@ -1,10 +1,10 @@
 package main
 
 import (
-	"log"
 	"github.com/gin-gonic/gin"
-	"github.com/rs/cors"
 	"github.com/micro/go-micro/v2/web"
+	"github.com/rs/cors"
+	"log"
 	"time"
 )
 
@@ -12,19 +12,19 @@ func main() {
 
 	service := web.NewService(
 		web.Name("go.micro.srv.gateway"),
-		web.RegisterTTL(30 *time.Second),
-		web.RegisterInterval(20 *time.Second),
+		web.RegisterTTL(30*time.Second),
+		web.RegisterInterval(20*time.Second),
 		web.Address(":7777"),
 	)
 
 	service.Init()
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:         []string{"*"},
-		AllowedMethods:         []string{"GET","POST","OPTIONS"},
-		AllowedHeaders:         []string{"*"},
-		MaxAge:                 3600,
-		Debug:                  false,
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"GET", "POST", "OPTIONS"},
+		AllowedHeaders: []string{"*"},
+		MaxAge:         3600,
+		Debug:          false,
 	})
 
 	r := gin.New()

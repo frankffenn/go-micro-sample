@@ -9,7 +9,6 @@ type SayResponse struct {
 }
 
 type RunRequest struct {
-
 }
 
 type RunResponse struct {

@@ -13,25 +13,24 @@ type AppJWTMiddleware struct {
 }
 
 var (
-	TokenTimeout = time.Hour * 24
+	TokenTimeout        = time.Hour * 24
 	TokenRefreshTimeout = time.Hour * 24 * 30
-	AuthUserMiddleware *AppJWTMiddleware
+	AuthUserMiddleware  *AppJWTMiddleware
 )
-
 
 func RegisterHandler(r *gin.Engine) {
 	apiV1 := r.Group("/api/v1")
 
 	AuthUserMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
-		Realm:"User",
-		Key: []byte("fake news"),
+		Realm: "User",
+		Key:   []byte("fake news"),
 	})
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	apiV1.GET("/ping", func(ctx *gin.Context){
+	apiV1.GET("/ping", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, ResponseSuccess(&jsonObj{"pong": true}))
 	})
 

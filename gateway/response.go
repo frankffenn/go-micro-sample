@@ -7,16 +7,16 @@ import (
 
 type jsonObj map[string]interface{}
 
-func ResponseSuccess(data *jsonObj) *gin.H{
+func ResponseSuccess(data *jsonObj) *gin.H {
 	return &gin.H{
-		"success":true,
-		"data": data,
+		"success": true,
+		"data":    data,
 	}
 }
 
 func ResponseFailWithErrorCode(code errors.ErrorCode) *gin.H {
-	return  &gin.H{
-		"code":code,
+	return &gin.H{
+		"code":    code,
 		"message": code.Message(),
 	}
 }

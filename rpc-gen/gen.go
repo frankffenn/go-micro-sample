@@ -61,14 +61,14 @@ func (f Field) Len() int {
 
 type Method struct {
 	Service string
-	Name string
-	In reflect.Type
-	Out reflect.Type
+	Name    string
+	In      reflect.Type
+	Out     reflect.Type
 }
 
 type GenTypeInfo struct {
-	Name   string
-	Fields []Field
+	Name    string
+	Fields  []Field
 	Methods []Method
 }
 
@@ -77,7 +77,7 @@ func (gti *GenTypeInfo) Imports() []Import {
 	for _, f := range gti.Fields {
 		switch f.Type.Kind() {
 		case reflect.Struct:
-			if !f.Pointer{
+			if !f.Pointer {
 				continue
 			}
 		case reflect.Bool:
@@ -125,20 +125,20 @@ func ParseTypeInfo(i interface{}) (*GenTypeInfo, error) {
 
 	pt := reflect.PtrTo(reflect.TypeOf(i))
 
-	for i:= 0; i < pt.NumMethod(); i++ {
-		m := pt.Method(pt.NumMethod() - i -1)
-		if m.Type.NumIn() < 3{
+	for i := 0; i < pt.NumMethod(); i++ {
+		m := pt.Method(pt.NumMethod() - i - 1)
+		if m.Type.NumIn() < 3 {
 			return nil, xerrors.New("unexpected number of input argument")
 		}
 		if m.Type.NumOut() != 1 {
-			return nil,xerrors.New("unexpected number of output argument")
+			return nil, xerrors.New("unexpected number of output argument")
 		}
 
 		out.Methods = append(out.Methods, Method{
-			Service:t.Name(),
-			Name: m.Name,
-			In: m.Type.In(2),
-			Out:m.Type.In(3),
+			Service: t.Name(),
+			Name:    m.Name,
+			In:      m.Type.In(2),
+			Out:     m.Type.In(3),
 		})
 	}
 
@@ -233,7 +233,6 @@ func doTemplate(w io.Writer, info interface{}, templ string) error {
 	return t.Execute(w, info)
 }
 
-
 func GenServiceForType(gti *GenTypeInfo, w io.Writer) error {
 	if err := emitServiceInstance(gti, w); err != nil {
 		return err
@@ -275,7 +274,7 @@ func requestOpts() []client.RequestOption {
 
 func emitServiceMethods(methods []Method, w io.Writer) error {
 
-	for i:= 0; i < len(methods); i++ {
+	for i := 0; i < len(methods); i++ {
 		err := doTemplate(w, methods[i], `
 func (c *{{ .Service }}Service) {{ .Name }}(ctx context.Context, in {{ .In }}, opts ...client.CallOption) ({{ .Out }}, error) {
 	req := c.c.NewRequest(c.name, "{{ .Service}}.{{ .Name }}", in, requestOpts()...)

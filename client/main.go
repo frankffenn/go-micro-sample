@@ -3,18 +3,21 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/micro/go-micro/v2"
 	"github.com/frankffenn/go-micro-sample/mod"
+	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-plugins/registry/etcdv3/v2"
 )
 
 func main() {
-
-	service := micro.NewService()
+	register := etcdv3.NewRegistry()
+	service := micro.NewService(
+		micro.Registry(register),
+	)
 	service.Init()
 
-	client := NewHelloServerService("HelloServer", service.Client())
+	client := NewHelloServerService("go.micro.srv.hello", service.Client())
 
-	rsp, err := client.Say(context.Background(), &mod.SayRequest{Name:"frank"})
+	rsp, err := client.Say(context.Background(), &mod.SayRequest{Name: "frank"})
 	if err != nil {
 		fmt.Println(err)
 	}
